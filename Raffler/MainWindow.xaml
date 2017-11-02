@@ -1,0 +1,20 @@
+﻿<Window x:Class="Raffler.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Raffler"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" Background="#FF303030" BorderBrush="Black" Foreground="White">
+    <Grid Background="#FF151515">
+        <ProgressBar HorizontalAlignment="Left" Height="16" Margin="83,225,0,0" VerticalAlignment="Top" Width="344" Background="#FF343434" Foreground="#FF0699B0" BorderBrush="#FF5F5F5F"/>
+        <Button Content="Parse" HorizontalAlignment="Left" Margin="170,281,0,0" VerticalAlignment="Top" Width="76" Background="#FF8B8B8B" BorderBrush="#FF343434"/>
+        <Label Content="Choose a JSON file and then click Parse." HorizontalAlignment="Left" Margin="18,53,0,0" VerticalAlignment="Top" Foreground="#FF7C7C7C"/>
+        <TextBox x:Name="txtFle" HorizontalAlignment="Left" Height="21" Margin="20,27,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="401" Background="#FF343434" BorderBrush="#FF575757" Foreground="#FF7C7C7C"/>
+        <TextBox HorizontalAlignment="Left" Height="127" Margin="20,84,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="476" Background="#FF2E2E2E" Foreground="#FF7C7C7C" BorderBrush="#FF3E3E3E"/>
+        <Button x:Name="btnOpen" Content="Open File..." HorizontalAlignment="Left" Margin="421,27,0,0" VerticalAlignment="Top" Width="75" Height="21"/>
+        <TextBox HorizontalAlignment="Left" Height="21" Margin="135,248,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="230" Background="#FF343434" BorderBrush="#FF575757" Foreground="#FF7C7C7C"/>
+        <Button Content="Select" HorizontalAlignment="Left" Margin="250,281,0,0" VerticalAlignment="Top" Width="76" Background="#FF8B8B8B" BorderBrush="#FF343434"/>
+
+    </Grid>
+</Window>

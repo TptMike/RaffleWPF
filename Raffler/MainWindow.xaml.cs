@@ -102,12 +102,21 @@ namespace Raffler
 
         private async void btnSelect_Click(object sender, RoutedEventArgs e)
         {
+            string result;
             try
             {
                 var lines = File.ReadLines(file).Count();
                 Random rnd = new Random();
                 var num = rnd.Next(1, lines);
-                var result = File.ReadLines(file).Skip(lines - 1).Take(1).First();
+                using (var sr = new StreamReader(file))
+                {
+                    for (int i = 1; i <= num; i++)
+                    {
+                        sr.ReadLine();
+                    }
+                     result = sr.ReadLine();
+                }
+                
 
                 // remove hyphens for API call
                 string formattedId = result.Replace("-", "");

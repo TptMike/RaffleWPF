@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Raffler"
         mc:Ignorable="d"
-        Title="RaffleSelector 1.0.4" Height="350" Width="525" Background="#FF303030" BorderBrush="Black" Foreground="White">
+        Title="RaffleSelector 1.0.5" Height="350" Width="525" Background="#FF303030" BorderBrush="Black" Foreground="White">
     <Grid Background="#FF151515">
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="16" Margin="83,225,0,0" VerticalAlignment="Top" Width="344" Background="#FF343434" Foreground="#FF0699B0" BorderBrush="#FF5F5F5F"/>
         <Button x:Name="btnParse" Content="Parse" HorizontalAlignment="Left" Margin="170,281,0,0" VerticalAlignment="Top" Width="76" Background="#FF8B8B8B" BorderBrush="#FF343434" Click="btnParse_Click"/>

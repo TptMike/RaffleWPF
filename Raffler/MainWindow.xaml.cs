@@ -61,7 +61,7 @@ namespace Raffler
                     taOutput.Clear();
                 }
 
-                //Serialize the JSON file into a key value pair inside a Dictionary container
+                //Deserialize the JSON file into a key value pair inside a Dictionary container
                 var playerKVP = JsonConvert.DeserializeObject<Dictionary<string, int>>(File.ReadAllText(txtFle.Text)).ToList();
                 //convert KVP Dictionary to a Player List
                 foreach (var player in playerKVP)

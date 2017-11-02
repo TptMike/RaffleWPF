@@ -23,11 +23,14 @@ namespace Raffler
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<KeyValuePair<string, int>> players = new List<KeyValuePair<string, int>>();
+        //List<KeyValuePair<string, int>> playerKVP = new List<KeyValuePair<string, int>>();
+        List<Player> players = new List<Player>();
         string fileName;
+        string file = "results.txt";
+        StringBuilder sb = new StringBuilder();
+
         public MainWindow()
         {
-
             InitializeComponent();
         }
 
@@ -40,7 +43,6 @@ namespace Raffler
 
             fileName = openFileDialog.FileName;
             txtFle.Text = fileName;
-            //TODO: Read JSON file in and deserialize it to a list of objects
             //TODO: Cycle through list printing a line with the UUID and decrementing the count associated and incrementing the number of rows
             //TODO: Once List contains no records, select a number between 1 and the number of rows
             //TODO: Display the record indexed at the rand result
@@ -52,6 +54,13 @@ namespace Raffler
 
         private void btnParse_Click(object sender, RoutedEventArgs e)
         {
+            //if it exists, delete the file for a fresh copy
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
+            File.Create(file).Close();
+            
             taOutput.Clear();
             try
             {
@@ -59,8 +68,31 @@ namespace Raffler
                 {
                     taOutput.Clear();
                 }
+                var playerKVP = JsonConvert.DeserializeObject<Dictionary<string, int>>(File.ReadAllText(txtFle.Text)).ToList();
+                //convert KVP to List
+                foreach (var player in playerKVP)
+                {
+                    players.Add(new Player { uuid = player.Key, voteCount = player.Value });
+                    taOutput.Text += player.Key + " | " + player.Value + "\n";
+                }
 
-                players = JsonConvert.DeserializeObject<Dictionary<string, int>>(File.ReadAllText(txtFle.Text)).ToList();
+                //loop through list until its empty, then output the string to file
+                while (players.Count > 0)
+                {
+                    for(int i = 0; i < players.Count; i++)
+                    {
+                        if (players[i].voteCount > 0)
+                        {
+                            sb.Append(players[i].uuid + "\n");
+                            --players[i].voteCount;
+                        }
+                        else
+                        {
+                            players.Remove(players[i]);
+                        }
+                    }
+                }
+                File.WriteAllText(file, sb.ToString());
             }
             catch (JsonException)
             {
@@ -73,13 +105,6 @@ namespace Raffler
             catch (Exception)
             {
                 taOutput.Text = "ERROR: Unknown.";
-            }
-            while (players.Count > 0)
-            {
-                foreach (var player in players)
-                {
-                    taOutput.Text += player.Key + " | " + player.Value + "\n";
-                }
             }
         }
     }

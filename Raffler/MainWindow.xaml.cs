@@ -23,11 +23,11 @@ namespace Raffler
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Player> players = new List<Player>();
+        List<KeyValuePair<string, int>> players = new List<KeyValuePair<string, int>>();
         string fileName;
         public MainWindow()
         {
-           
+
             InitializeComponent();
         }
 
@@ -52,9 +52,15 @@ namespace Raffler
 
         private void btnParse_Click(object sender, RoutedEventArgs e)
         {
+            taOutput.Clear();
             try
             {
-                    players = JsonConvert.DeserializeObject<List<Player>>(File.ReadAllText(txtFle.Text));
+                if (taOutput.Text != null)
+                {
+                    taOutput.Clear();
+                }
+
+                players = JsonConvert.DeserializeObject<Dictionary<string, int>>(File.ReadAllText(txtFle.Text)).ToList();
             }
             catch (JsonException)
             {
@@ -68,10 +74,12 @@ namespace Raffler
             {
                 taOutput.Text = "ERROR: Unknown.";
             }
-            
-            foreach (var player in players)
+            while (players.Count > 0)
             {
-                taOutput.Text += player.uuid + " | " + player.voteCount + "\n";
+                foreach (var player in players)
+                {
+                    taOutput.Text += player.Key + " | " + player.Value + "\n";
+                }
             }
         }
     }

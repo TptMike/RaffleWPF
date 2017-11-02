@@ -23,9 +23,11 @@ namespace Raffler
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Player> players = new List<Player>();
+        string fileName;
         public MainWindow()
         {
-            List<Player> players = new List<Player>();
+           
             InitializeComponent();
         }
 
@@ -35,8 +37,9 @@ namespace Raffler
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "json files (*.json)|*.json"; //dont want to read any other format
             openFileDialog.ShowDialog();
-            
 
+            fileName = openFileDialog.FileName;
+            txtFle.Text = fileName;
             //TODO: Read JSON file in and deserialize it to a list of objects
             //TODO: Cycle through list printing a line with the UUID and decrementing the count associated and incrementing the number of rows
             //TODO: Once List contains no records, select a number between 1 and the number of rows
@@ -47,5 +50,29 @@ namespace Raffler
 
         }
 
+        private void btnParse_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                    players = JsonConvert.DeserializeObject<List<Player>>(File.ReadAllText(txtFle.Text));
+            }
+            catch (JsonException)
+            {
+                taOutput.Text = "ERROR: Could not parse JSON file. Is the JSON in the write format?";
+            }
+            catch (ArgumentException)
+            {
+                taOutput.Text = "ERROR: No file selected! Please enter a file.";
+            }
+            catch (Exception)
+            {
+                taOutput.Text = "ERROR: Unknown.";
+            }
+            
+            foreach (var player in players)
+            {
+                taOutput.Text += player.uuid + " | " + player.voteCount + "\n";
+            }
+        }
     }
 }

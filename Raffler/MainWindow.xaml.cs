@@ -4,17 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Newtonsoft.Json;
+using MojangSharp.Api;
+using MojangSharp;
+using MojangSharp.Endpoints;
+using MojangSharp.Responses;
 
 namespace Raffler
 {
@@ -43,17 +38,12 @@ namespace Raffler
 
             fileName = openFileDialog.FileName;
             txtFle.Text = fileName;
-            //TODO: Cycle through list printing a line with the UUID and decrementing the count associated and incrementing the number of rows
-            //TODO: Once List contains no records, select a number between 1 and the number of rows
-            //TODO: Display the record indexed at the rand result
-            //TODO: Hookup functions to events
-            //TODO: Select winner for October
-            //TODO: Attempt file data validation
 
         }
 
         private void btnParse_Click(object sender, RoutedEventArgs e)
         {
+            progressBar.IsIndeterminate = true; // start animation
             //if it exists, delete the file for a fresh copy
             if (File.Exists(file))
             {
@@ -105,6 +95,32 @@ namespace Raffler
             catch (Exception)
             {
                 taOutput.Text = "ERROR: Unknown.";
+            }
+            progressBar.IsIndeterminate = false;
+            progressBar.Value = 100; // start animation
+        }
+
+        private async void btnSelect_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var lines = File.ReadLines(file).Count();
+                Random rnd = new Random();
+                var num = rnd.Next(1, lines);
+                var result = File.ReadLines(file).Skip(lines - 1).Take(1).First();
+
+                // remove hyphens for API call
+                string formattedId = result.Replace("-", "");
+                
+                //Send Mojang the API call
+                NameHistoryResponse response = await new NameHistory(formattedId).PerformRequest();
+
+                txtWinner.Text = response.NameHistory[response.NameHistory.Count - 1].Name;
+             
+            }
+            catch(FileNotFoundException)
+            {
+                taOutput.Text += "ERROR: Could not locate file";
             }
         }
     }

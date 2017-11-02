@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using Newtonsoft.Json;
 
 namespace Raffler
 {
@@ -25,13 +25,17 @@ namespace Raffler
     {
         public MainWindow()
         {
+            List<Player> players = new List<Player>();
             InitializeComponent();
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
+            //Open dialog
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "json files (*.json)|*.json"; //dont want to read any other format
             openFileDialog.ShowDialog();
+            
 
             //TODO: Read JSON file in and deserialize it to a list of objects
             //TODO: Cycle through list printing a line with the UUID and decrementing the count associated and incrementing the number of rows

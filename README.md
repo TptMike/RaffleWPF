@@ -1,3 +1,4 @@
+![logo](https://i.imgur.com/T5twPcq.png)
 # Raffler
 This app was created for handling the monthly voting raffle at Everneth.com
 # Usage

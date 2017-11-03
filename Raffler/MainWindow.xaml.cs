@@ -148,6 +148,10 @@ namespace Raffler
                 //Our file is missing, did it get deleted before clicking select? Try parsing again
                 taOutput.Text += "ERROR: Could not locate file";
             }
+            catch(Exception)
+            {
+                taOutput.Text += "ERROR: Cannot select winner from empty file! Try parsing data.";
+            }
         }
     }
 }
